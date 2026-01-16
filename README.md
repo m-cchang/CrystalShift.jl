@@ -82,7 +82,8 @@ When using this package for your work, please cite this package using the follow
   pages={148},
   year={2025},
   publisher={Nature Publishing Group UK London}
-}```
+}
+```
 
 ## Other links
 * [CrystalTree.jl](https://github.com/MingChiangChang/crystaltree.jl) is a package based on `CrystalShift` that builds all of the tree search and probibilistic capabilities.

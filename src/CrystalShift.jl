@@ -16,6 +16,14 @@ using Printf
 using PrecompileTools
 using Random
 # using PyCall
+#
+using StatsBase
+using LazyInverses
+using OptimizationAlgorithms
+using CovarianceFunctions: EQ
+using Einsum
+using LogExpFunctions: logsumexp
+
 
 # TODO: Update export list
 export CrystalPhase, AbstractPhase, PeakModCP, Wildcard, Peak, PhaseModel, BackgroundModel
@@ -25,6 +33,10 @@ export OptimizationMethods, OptimizationMode, OptimizationSettings # enums
 export evaluate!, evaluate_residual!, optimize!, full_optimize!, fit_amorphous
 export get_free_params, CifParser, CIFFile, Xtal, PowderDiffraction
 export Gauss, Lorentz
+
+export Node, Tree, Lazytree
+export search!, search_k2n
+export TreeSearchSettings
 
 # Python imports
 # Note: Deprecated for ease of python wrapper installation
@@ -56,19 +68,19 @@ export Gauss, Lorentz
 # end
 
 
-include("util.jl")
-include("peakprofile.jl")
-include("peak.jl")
-include("crystal.jl")
-include("crystalphase.jl")
-include("wildcard.jl")
-include("peakmodCP.jl")
-include("background.jl")
-include("fixedbackground.jl")
-include("phasemodel.jl")
-include("phaseresult.jl")
-include("optimizationsettings.jl")
-include("optimize.jl")
+include("core/util.jl")
+include("core/peakprofile.jl")
+include("core/peak.jl")
+include("core/crystal.jl")
+include("core/crystalphase.jl")
+include("core/wildcard.jl")
+include("core/peakmodCP.jl")
+include("core/background.jl")
+include("core/fixedbackground.jl")
+include("core/phasemodel.jl")
+include("core/phaseresult.jl")
+include("optimize/optimizationsettings.jl")
+include("optimize/optimize.jl")
 
 @setup_workload begin
     std_noise = 1.0
@@ -125,6 +137,26 @@ include("optimize.jl")
         #           regularization = true, verbose = false)
     end
 end
+
+abstract type AbstractObjective end
+abstract type AbstractTreeSearchSettings end
+
+struct LeastSquares <: AbstractObjective end
+string(::LeastSquares) = "LS"
+
+struct KullbackLeibler <: AbstractObjective end
+string(::KullbackLeibler) = "KL"
+
+include("search/util.jl")
+include("search/node.jl")
+include("search/tree.jl")
+include("search/treesearchsettings.jl")
+include("search/lazytree.jl")
+include("search/mptree.jl")
+include("search/search.jl")
+include("search/probabilistic.jl")
+
+
 
 
 end

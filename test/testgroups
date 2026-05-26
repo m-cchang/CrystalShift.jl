@@ -1,4 +1,4 @@
-util
+core_util
 peak
 peakprofile
 crystal
@@ -11,3 +11,10 @@ optimize
 background
 fixedbackground
 phaseresult
+search_util
+node
+tree
+search
+lazytree
+mptree
+probabilistic
